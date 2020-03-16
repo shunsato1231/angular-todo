@@ -16,9 +16,22 @@ export class DashboardComponent implements OnInit {
     this.getTasks()
   }
 
-  private getTasks() {
+  getTasks() {
     this.taskService.getTasks()
     .subscribe(tasks => this.tasks = tasks)
+  }
+
+  add(comment: string): void {
+    comment = comment.trim()
+    if(!comment) {
+      return
+    }
+
+    this.taskService.addTask({comment} as Task)
+      .subscribe(task => {
+        task.status = 'new'
+        this.tasks.push(task)
+      })
   }
 
 }

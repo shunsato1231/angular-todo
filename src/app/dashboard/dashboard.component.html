@@ -26,7 +26,7 @@
 <div class="addTask">
   <h2>add new task</h2>
   <form>
-    <input placeholder="name"/>
-    <button>add</button>
+    <input placeholder="task comment" #taskComment/>
+    <button (click)="add(taskComment.value); taskComment.value = ''">add</button>
   </form>
 </div>

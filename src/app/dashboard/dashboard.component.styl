@@ -38,7 +38,7 @@ table
           background #ddd
           color #fff
           cursor pointer
-
+          outline none
 .addTask
   margin-top 30px
   h2
@@ -57,6 +57,12 @@ table
       padding 0 10px
       border-radius 5px 0 0 5px
       flex-grow 1
+      &::placeholder
+        color #ddd
+      &:-ms-input-placeholder
+        color #ddd
+      &::-ms-input-placeholder
+        color #ddd
     button
       font-size 14px
       border none
@@ -68,3 +74,4 @@ table
       border-width 1px 1px 1px 0
       color #fff
       cursor pointer
+      outline none
