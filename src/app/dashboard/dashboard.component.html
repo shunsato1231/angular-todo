@@ -1,0 +1,32 @@
+<table>
+  <thead>
+    <th class="id">ID</th>
+    <th class="comment">Comment</th>
+    <th class="status">Status</th>
+    <th class="edit"></th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let task of tasks">
+      <th class="id">{{ task.id }}</th>
+      <td class="comment">{{ task.comment }}</td>
+      <td class="status">
+        <span class="label">
+          {{ task.status }}
+        </span>
+      </td>
+      <td class="edit">
+        <button>
+          edit
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="addTask">
+  <h2>add new task</h2>
+  <form>
+    <input placeholder="name"/>
+    <button>add</button>
+  </form>
+</div>
