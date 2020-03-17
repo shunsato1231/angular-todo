@@ -16,9 +16,9 @@ export class InMemoryDataService implements InMemoryDbService{
       {id: 5, comment:'task5', status: 'new'},
       {id: 6, comment:'task6', status: 'new'},
       {id: 7, comment:'task7', status: 'new'},
-      {id: 8, comment:'task8', status: 'new'},
-      {id: 9, comment:'task9', status: 'new'},
-      {id: 10, comment:'task10', status: 'new'}
+      {id: 8, comment:'task8', status: 'pending'},
+      {id: 9, comment:'task9', status: 'wip'},
+      {id: 10, comment:'task10', status: 'done'}
     ]
 
     return { tasks }

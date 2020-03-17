@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Task } from '../task';
+import { Task, status } from '../task';
 import { TaskService } from '../task.service';
 
 @Component({
@@ -8,7 +8,8 @@ import { TaskService } from '../task.service';
   styleUrls: ['./dashboard.component.styl']
 })
 export class DashboardComponent implements OnInit {
-  tasks: Task[] = []
+  allTasks: Task[] = []
+  status: status | 'all' = 'all'
 
   constructor(private taskService: TaskService) { }
 
@@ -18,10 +19,12 @@ export class DashboardComponent implements OnInit {
 
   getTasks() {
     this.taskService.getTasks()
-    .subscribe(tasks => this.tasks = tasks)
+    .subscribe(tasks => {
+      this.allTasks = tasks
+    })
   }
 
-  add(comment: string): void {
+  addTask(comment: string): void {
     comment = comment.trim()
     if(!comment) {
       return
@@ -32,6 +35,14 @@ export class DashboardComponent implements OnInit {
         task.status = 'new'
         this.tasks.push(task)
       })
+  }
+
+  get tasks () {
+    if(this.status === 'all') {
+      return this.allTasks
+    } else {
+      return this.allTasks.filter(task => { return task.status === this.status })
+    }
   }
 
 }
