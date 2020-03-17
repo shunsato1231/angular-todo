@@ -14,17 +14,17 @@ export class DashboardComponent implements OnInit {
   constructor(private taskService: TaskService) { }
 
   ngOnInit(): void {
-    this.getTasks()
+    this.get()
   }
 
-  getTasks() {
+  get(): void {
     this.taskService.getTasks()
     .subscribe(tasks => {
       this.allTasks = tasks
     })
   }
 
-  addTask(comment: string): void {
+  add(comment: string): void {
     comment = comment.trim()
     if(!comment) {
       return
@@ -35,9 +35,15 @@ export class DashboardComponent implements OnInit {
         task.status = 'new'
         this.tasks.push(task)
       })
+
+    this.status = 'all'
   }
 
-  get tasks () {
+  delete(task: Task): void {
+    this.taskService.deleteTask(task).subscribe(() => { this.get() })
+  }
+
+  get tasks(): Task[] {
     if(this.status === 'all') {
       return this.allTasks
     } else {

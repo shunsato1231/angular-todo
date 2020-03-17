@@ -1,19 +1,19 @@
 <div class="sortTask">
   <form>
     <label [class.checked]="status === 'all'">
-      <input type="radio" name="status" value="all" [(ngModel)]="status" [checked]="status === 'all'"> all
+      <input type="radio" name="status" value="all" [(ngModel)]="status"> all
     </label>
     <label [class.checked]="status === 'new'">
-      <input type="radio" name="status" value="new" [(ngModel)]="status" [checked]="status === 'new'"> new
+      <input type="radio" name="status" value="new" [(ngModel)]="status"> new
     </label>
     <label [class.checked]="status === 'wip'">
-      <input type="radio" name="status" value="wip" [(ngModel)]="status" [checked]="status === 'wip'"> wip
+      <input type="radio" name="status" value="wip" [(ngModel)]="status"> wip
     </label>
     <label [class.checked]="status === 'done'">
-      <input type="radio" name="status" value="done" [(ngModel)]="status" [checked]="status === 'done'"> done
+      <input type="radio" name="status" value="done" [(ngModel)]="status"> done
     </label>
     <label [class.checked]="status === 'pending'">
-      <input type="radio" name="status" value="pending" [(ngModel)]="status" [checked]="status === 'pending'"> pending
+      <input type="radio" name="status" value="pending" [(ngModel)]="status"> pending
     </label>
   </form>
   <span>
@@ -27,20 +27,26 @@
     <th class="comment">Comment</th>
     <th class="status">Status</th>
     <th class="edit"></th>
+    <th class="delete"></th>
   </thead>
   <tbody>
-    <tr *ngFor="let task of tasks" [class.gray]="task.status === 'done'" [class.red]="task.status === 'pending'">
+    <tr *ngFor="let task of tasks" [class.gray]="task.status === 'done' ||task.status === 'pending'" [class.red]="task.status === 'wip'">
       <th class="id">{{ task.id }}</th>
       <td class="comment">{{ task.comment }}</td>
       <td class="status">
-        <span class="label" [class.new]="task.status === 'new'" [class.done]="task.status === 'done'" [class.wip]="task.status === 'wip'">
+        <span class="label" [class.new]="task.status === 'new'" [class.done]="task.status === 'done'" [class.wip]="task.status === 'wip'" [class.pending]="task.status === 'pending'">
           {{ task.status }}
         </span>
       </td>
       <td class="edit">
         <a routerLink="/detail/{{task.id}}">
-          edit
+          <i class="fas fa-edit"></i>
         </a>
+      </td>
+      <td class="delete">
+        <button (click)="delete(task)">
+          <i class="fas fa-trash-alt"></i>
+        </button>
       </td>
     </tr>
   </tbody>
@@ -50,6 +56,6 @@
   <h2>add new task</h2>
   <form>
     <input placeholder="task comment" #taskComment/>
-    <button (click)="addTask(taskComment.value); taskComment.value = ''">add</button>
+    <button (click)="add(taskComment.value); taskComment.value = ''">add</button>
   </form>
 </div>
