@@ -14,6 +14,7 @@ import { TaskDetailComponent } from './pages/task-detail/task-detail.component';
 import { StatusRadioButtonComponent } from './components/status-radio-button/status-radio-button.component';
 import { TaskListComponent } from './components/task-list/task-list.component';
 import { AddTaskFormComponent } from './components/add-task-form/add-task-form.component';
+import { EditFormComponent } from './components/edit-form/edit-form.component';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { AddTaskFormComponent } from './components/add-task-form/add-task-form.c
     StatusRadioButtonComponent,
     TaskListComponent,
     AddTaskFormComponent,
+    EditFormComponent,
   ],
   imports: [
     BrowserModule,

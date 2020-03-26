@@ -1,28 +1,15 @@
 <div class="wrapper">
   <h2>Edit Task<span>ID: {{task?.id}}</span></h2>
-  <form>
-    <div class="status">
-      <label [class.checked]="task?.status === 'new'">
-        <input type="radio" name="status" value="new" [ngModel]="task?.status" (ngModelChange)="task.status = $event"> new
-      </label>
-      <label [class.checked]="task?.status === 'wip'">
-        <input type="radio" name="status" value="wip" [ngModel]="task?.status" (ngModelChange)="task.status = $event"> wip
-      </label>
-      <label [class.checked]="task?.status === 'done'">
-        <input type="radio" name="status" value="done" [ngModel]="task?.status" (ngModelChange)="task.status = $event"> done
-      </label>
-      <label [class.checked]="task?.status === 'pending'">
-        <input type="radio" name="status" value="pending" [ngModel]="task?.status" (ngModelChange)="task.status = $event"> pending
-      </label>
-    </div>
-    <input class="text" placeholder="task comment" [value]="task?.comment" (change)="task.comment = comment.value" #comment>
-    <div class="button">
-      <button class="update" (click)="update()">update task</button>
-      <button class="delete">
-        <i class="fas fa-trash-alt" (click)="delete()"></i>
-      </button>
-    </div>
-  </form>
+
+  <div class="editor">
+    <app-edit-form
+      [task]="task"
+      (update)="update()"
+      (delete)="delete()"
+      (changeStatus)="task.status = $event"
+      (changeComment)="task.comment = $event"
+    ></app-edit-form>
+  </div>
 
   <a class="back" routerLink="/">
     <i class="fas fa-chevron-left"></i>
