@@ -6,7 +6,15 @@
   ></app-sort-checkbox>
 </div>
 
-<table>
+<div>
+  <app-task-list
+    [tasks]="tasks"
+    (delete)="delete($event)"
+  >
+  </app-task-list>
+</div>
+
+<!-- <table>
   <thead>
     <th class="id">ID</th>
     <th class="comment">Comment</th>
@@ -35,7 +43,7 @@
       </td>
     </tr>
   </tbody>
-</table>
+</table> -->
 
 <div class="addTask">
   <h2>add new task</h2>

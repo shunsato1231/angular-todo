@@ -1,0 +1,28 @@
+<div class="wrapper">
+  <div class="heading">
+    <div class="id">ID</div>
+    <div class="comment">Comment</div>
+    <div class="status">Status</div>
+  </div>
+  <ul>
+    <ng-container *ngFor="let task of tasks">
+      <li [class]="listItemClass(task.status)">
+        <div class="id">{{task.id}}</div>
+        <div class="comment">{{task.comment}}</div>
+        <div class="status">
+          <span [class]='"label " + task.status'>{{task.status}}</span>
+        </div>
+        <div class="edit">
+          <a routerLink="/detail/{{task.id}}">
+            <i class="fas fa-edit icon"></i>
+          </a>
+        </div>
+        <div class="trash">
+          <button (click)="deleteTask(task)">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </div>
+      </li>
+    </ng-container>
+  </ul>
+</div>
