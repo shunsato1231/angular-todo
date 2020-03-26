@@ -1,54 +1,19 @@
 <div class="sort">
-  <app-sort-checkbox
-    [statusList]="statusList"
-    [taskNumber]="tasks.length"
-    (changeStatus)="changeStatus($event)"
-  ></app-sort-checkbox>
+  <app-status-radio-button
+    [items]="statusList"
+    [taskLength]="tasks.length"
+    (checked)="changeStatus($event)"
+  ></app-status-radio-button>
 </div>
 
-<div>
-  <app-task-list
-    [tasks]="tasks"
-    (delete)="delete($event)"
-  >
-  </app-task-list>
-</div>
-
-<!-- <table>
-  <thead>
-    <th class="id">ID</th>
-    <th class="comment">Comment</th>
-    <th class="status">Status</th>
-    <th class="edit"></th>
-    <th class="delete"></th>
-  </thead>
-  <tbody>
-    <tr *ngFor="let task of tasks" [class.gray]="task.status === 'done' ||task.status === 'pending'" [class.red]="task.status === 'wip'">
-      <th class="id">{{ task.id }}</th>
-      <td class="comment">{{ task.comment }}</td>
-      <td class="status">
-        <span class="label" [class.new]="task.status === 'new'" [class.done]="task.status === 'done'" [class.wip]="task.status === 'wip'" [class.pending]="task.status === 'pending'">
-          {{ task.status }}
-        </span>
-      </td>
-      <td class="edit">
-        <a routerLink="/detail/{{task.id}}">
-          <i class="fas fa-edit"></i>
-        </a>
-      </td>
-      <td class="delete">
-        <button (click)="delete(task)">
-          <i class="fas fa-trash-alt"></i>
-        </button>
-      </td>
-    </tr>
-  </tbody>
-</table> -->
+<app-task-list
+  [tasks]="tasks"
+  (delete)="deleteTask($event)"
+>
+</app-task-list>
 
 <div class="addTask">
-  <h2>add new task</h2>
-  <form>
-    <input placeholder="task comment" #taskComment/>
-    <button (click)="add(taskComment.value); taskComment.value = ''">add</button>
-  </form>
+  <app-add-task-form
+    (add)="addTask($event)"
+  ></app-add-task-form>
 </div>

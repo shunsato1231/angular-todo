@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SortCheckboxComponent } from './sort-checkbox.component';
+import { StatusRadioButtonComponent } from './status-radio-button.component';
 
 describe('SortCheckboxComponent', () => {
-  let component: SortCheckboxComponent;
-  let fixture: ComponentFixture<SortCheckboxComponent>;
+  let component: StatusRadioButtonComponent;
+  let fixture: ComponentFixture<StatusRadioButtonComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SortCheckboxComponent ]
+      declarations: [ StatusRadioButtonComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SortCheckboxComponent);
+    fixture = TestBed.createComponent(StatusRadioButtonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,5 +1,5 @@
 <div class="wrapper">
-  <ng-container *ngFor="let item of statusList">
+  <ng-container *ngFor="let item of items">
     <label [class.checked]="item.status">
       <input
         type="radio"
@@ -11,5 +11,5 @@
   </ng-container>
 </div>
 <span>
-  (show {{ taskNumber }} tasks)
+  (show {{ taskLength }} tasks)
 </span>

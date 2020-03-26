@@ -11,8 +11,9 @@ import { InMemoryDataService }  from './in-memory-data.service';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { TaskDetailComponent } from './pages/task-detail/task-detail.component';
-import { SortCheckboxComponent } from './components/sort-checkbox/sort-checkbox.component';
+import { StatusRadioButtonComponent } from './components/status-radio-button/status-radio-button.component';
 import { TaskListComponent } from './components/task-list/task-list.component';
+import { AddTaskFormComponent } from './components/add-task-form/add-task-form.component';
 
 
 @NgModule({
@@ -20,8 +21,9 @@ import { TaskListComponent } from './components/task-list/task-list.component';
     AppComponent,
     DashboardComponent,
     TaskDetailComponent,
-    SortCheckboxComponent,
+    StatusRadioButtonComponent,
     TaskListComponent,
+    AddTaskFormComponent,
   ],
   imports: [
     BrowserModule,
