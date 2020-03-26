@@ -1,24 +1,9 @@
-<div class="sortTask">
-  <form>
-    <label [class.checked]="status === 'all'">
-      <input type="radio" name="status" value="all" [(ngModel)]="status"> all
-    </label>
-    <label [class.checked]="status === 'new'">
-      <input type="radio" name="status" value="new" [(ngModel)]="status"> new
-    </label>
-    <label [class.checked]="status === 'wip'">
-      <input type="radio" name="status" value="wip" [(ngModel)]="status"> wip
-    </label>
-    <label [class.checked]="status === 'done'">
-      <input type="radio" name="status" value="done" [(ngModel)]="status"> done
-    </label>
-    <label [class.checked]="status === 'pending'">
-      <input type="radio" name="status" value="pending" [(ngModel)]="status"> pending
-    </label>
-  </form>
-  <span>
-    (show {{tasks.length}} tasks)
-  </span>
+<div class="sort">
+  <app-sort-checkbox
+    [statusList]="statusList"
+    [taskNumber]="tasks.length"
+    (changeStatus)="changeStatus($event)"
+  ></app-sort-checkbox>
 </div>
 
 <table>

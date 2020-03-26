@@ -1,7 +1,5 @@
 export interface Task {
   id: number;
   comment: string;
-  status: status;
+  status: string;
 }
-
-export type status = 'new' | 'wip'| 'done' | 'pending'

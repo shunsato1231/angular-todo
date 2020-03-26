@@ -9,8 +9,9 @@ import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService }  from './in-memory-data.service';
 
 import { AppComponent } from './app.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { TaskDetailComponent } from './task-detail/task-detail.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { TaskDetailComponent } from './pages/task-detail/task-detail.component';
+import { SortCheckboxComponent } from './conponents/sort-checkbox/sort-checkbox.component';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { TaskDetailComponent } from './task-detail/task-detail.component';
     AppComponent,
     DashboardComponent,
     TaskDetailComponent,
+    SortCheckboxComponent,
   ],
   imports: [
     BrowserModule,

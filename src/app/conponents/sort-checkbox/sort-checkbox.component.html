@@ -1,0 +1,15 @@
+<div class="wrapper">
+  <ng-container *ngFor="let item of statusList">
+    <label [class.checked]="item.status">
+      <input
+        type="radio"
+        name="status"
+        [checked]="item.status"
+        (change)="handleChange(item.name)"
+      /> {{ item.name }}
+    </label>
+  </ng-container>
+</div>
+<span>
+  (show {{ taskNumber }} tasks)
+</span>

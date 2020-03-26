@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Task, status } from '../task';
-import { TaskService } from '../task.service';
+import { Task } from '../../task';
+import { TaskService } from '../../task.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,7 +9,14 @@ import { TaskService } from '../task.service';
 })
 export class DashboardComponent implements OnInit {
   allTasks: Task[] = []
-  status: status | 'all' = 'all'
+  statusName: string = 'all'
+  statusList = [
+    {name: 'all', status: true},
+    {name: 'new', status: false},
+    {name: 'wip', status: false},
+    {name: 'done', status: false},
+    {name: 'pending', status: false}
+  ]
 
   constructor(private taskService: TaskService) { }
 
@@ -36,18 +43,28 @@ export class DashboardComponent implements OnInit {
         this.tasks.push(task)
       })
 
-    this.status = 'all'
+    this.statusName = 'all'
   }
 
   delete(task: Task): void {
     this.taskService.deleteTask(task).subscribe(() => { this.get() })
   }
 
+  changeStatus(name: string): void {
+    const prevSelectedIndex = this.statusList.findIndex(item => item.name === this.statusName)
+    const nextSelectIndex = this.statusList.findIndex(item => item.name === name )
+
+     this.statusList[prevSelectedIndex].status = false
+     this.statusList[nextSelectIndex].status = true
+
+     this.statusName = name
+  }
+
   get tasks(): Task[] {
-    if(this.status === 'all') {
+    if(this.statusName === 'all') {
       return this.allTasks
     } else {
-      return this.allTasks.filter(task => { return task.status === this.status })
+      return this.allTasks.filter(task => { return task.status === this.statusName })
     }
   }
 
