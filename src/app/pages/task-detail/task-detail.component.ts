@@ -12,6 +12,7 @@ import { TaskService } from '../../task.service';
 })
 export class TaskDetailComponent implements OnInit {
   task: Task
+  beforeChangeTask: Task
 
   constructor(
     private router: Router,
@@ -27,11 +28,13 @@ export class TaskDetailComponent implements OnInit {
     const id = +this.route.snapshot.paramMap.get('id')
     this.taskService.getTask(id)
     .subscribe(task => {
-      this.task = task
+      this.task = JSON.parse(JSON.stringify(task))
+      this.beforeChangeTask = JSON.parse(JSON.stringify(task))
     })
   }
 
   update(): void {
+    console.log(this.disabled)
     this.taskService.updateTask(this.task)
       .subscribe(() => {
         this.router.navigate(["/"])
@@ -45,4 +48,12 @@ export class TaskDetailComponent implements OnInit {
       })
   }
 
+  get disabled(): string {
+    if (!this.task?.comment) {
+      return 'disabled'
+    } else if(this.beforeChangeTask?.status === this.task?.status && 
+        this.beforeChangeTask?.comment === this.task?.comment) {
+      return 'disabled'
+    } else return ''
+  }
 }

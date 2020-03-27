@@ -11,9 +11,13 @@
       </label>
     </ng-container>
   </div>
-  <input class="text" placeholder="task comment" [value]="task?.comment" (change)="handleChangeComment(comment.value)" #comment />
+  <input 
+    class="text"
+    placeholder="task comment"
+    [ngModel]="task?.comment"
+    (ngModelChange)="handleChangeComment($event)" />
   <div class="button">
-    <button class="update" (click)="handleUpdate()">update task</button>
+    <button class="update" (click)="handleUpdate()" [class]="disabled">update task</button>
     <button class="delete" (click)="handleDelete()">
       <i class="fas fa-trash-alt"></i>
     </button>

@@ -4,6 +4,7 @@
   <div class="editor">
     <app-edit-form
       [task]="task"
+      [disabled]="disabled"
       (update)="update()"
       (delete)="delete()"
       (changeStatus)="task.status = $event"

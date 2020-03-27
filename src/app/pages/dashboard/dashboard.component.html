@@ -15,5 +15,7 @@
 <div class="addTask">
   <app-add-task-form
     (add)="addTask($event)"
+    (onChange)="validateInputText($event)"
+    [disabled]="addTaskDisabled"
   ></app-add-task-form>
 </div>

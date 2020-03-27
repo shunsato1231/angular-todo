@@ -10,6 +10,7 @@ import { TaskService } from '../../task.service';
 export class DashboardComponent implements OnInit {
   allTasks: Task[] = []
   statusName: string = 'all'
+  addTaskDisabled: string = 'disabled'
   statusList = [
     {name: 'all', status: true},
     {name: 'new', status: false},
@@ -58,6 +59,14 @@ export class DashboardComponent implements OnInit {
      this.statusList[nextSelectIndex].status = true
 
      this.statusName = name
+  }
+
+  validateInputText(comment) {
+    if(!comment) {
+      this.addTaskDisabled = 'disabled'
+    } else {
+      this.addTaskDisabled = ''
+    }
   }
 
   get tasks(): Task[] {

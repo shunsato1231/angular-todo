@@ -1,5 +1,13 @@
 <h2>add new task</h2>
-  <div class="form">
-    <input placeholder="task comment" #taskComment/>
-    <button (click)="addTask(taskComment.value); taskComment.value = ''">add</button>
-  </div>
+
+<div class="form">
+  <input
+    [ngModel]="text"
+    (ngModelChange)="handleChangeInput($event); text = $event"
+    placeholder="task comment"
+    #inputText/>
+  <button
+    (click)="handleAddButton(text)"
+    [class]="disabled"
+    >add</button>
+</div>

@@ -11,6 +11,7 @@ export class EditFormComponent implements OnInit {
   statusList = ['new', 'wip', 'done', 'pending']
 
   @Input() task: Task
+  @Input() disabled: string
   @Output() update: EventEmitter<null> = new EventEmitter()
   @Output() delete: EventEmitter<null> = new EventEmitter()
   @Output() changeStatus: EventEmitter<string> = new EventEmitter<string>()
