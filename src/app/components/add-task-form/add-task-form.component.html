@@ -5,9 +5,10 @@
     [ngModel]="text"
     (ngModelChange)="handleChangeInput($event); text = $event"
     placeholder="task comment"
+    (keydown.enter)="trigger($event)"
     #inputText/>
   <button
-    (click)="handleAddButton(text)"
+    (click)="handleAddButton()"
     [class]="disabled"
     >add</button>
 </div>

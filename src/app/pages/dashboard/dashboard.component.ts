@@ -44,11 +44,12 @@ export class DashboardComponent implements OnInit {
         this.tasks.push(task)
       })
 
-    this.statusName = 'all'
+    this.changeStatus('all')
   }
 
   deleteTask(task: Task): void {
-    this.taskService.deleteTask(task).subscribe(() => { this.getTasks() })
+    this.allTasks = this.allTasks.filter(v => v !== task)
+    this.taskService.deleteTask(task).subscribe()
   }
 
   changeStatus(name: string): void {

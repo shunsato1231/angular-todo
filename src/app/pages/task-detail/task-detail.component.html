@@ -5,8 +5,8 @@
     <app-edit-form
       [task]="task"
       [disabled]="disabled"
-      (update)="update()"
-      (delete)="delete()"
+      (update)="updateTask()"
+      (delete)="deleteTask()"
       (changeStatus)="task.status = $event"
       (changeComment)="task.comment = $event"
     ></app-edit-form>

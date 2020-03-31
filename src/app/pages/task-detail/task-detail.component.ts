@@ -33,15 +33,14 @@ export class TaskDetailComponent implements OnInit {
     })
   }
 
-  update(): void {
-    console.log(this.disabled)
+  updateTask(): void {
     this.taskService.updateTask(this.task)
       .subscribe(() => {
         this.router.navigate(["/"])
       })
   }
 
-  delete(): void {
+  deleteTask(): void {
     this.taskService.deleteTask(this.task)
       .subscribe(() => {
         this.router.navigate(["/"])

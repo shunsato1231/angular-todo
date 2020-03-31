@@ -17,9 +17,8 @@ export class AddTaskFormComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  handleAddButton(comment: string): void {
-    console.log(comment)
-    this.add.emit(comment)
+  handleAddButton(): void {
+    this.add.emit(this.text)
     this.text = ''
     this.handleChangeInput(this.text)
   } 
@@ -28,4 +27,8 @@ export class AddTaskFormComponent implements OnInit {
     this.onChange.emit(comment)
   }
 
+  trigger(event: any):void {
+    if (event.keyCode !== 13) return
+    this.handleAddButton()
+  }
 }
