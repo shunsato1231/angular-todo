@@ -26,7 +26,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getTasks(): void {
-    this.taskService.getTasks()
+    this.taskService.get()
     .subscribe(tasks => {
       this.allTasks = tasks
     })
@@ -38,18 +38,21 @@ export class DashboardComponent implements OnInit {
       return
     }
 
-    this.taskService.addTask({comment} as Task)
-      .subscribe(task => {
-        task.status = 'new'
-        this.tasks.push(task)
+    this.taskService.post({comment, status: 'new'} as Task)
+      .subscribe(id => {
+        this.tasks.push({
+          id,
+          comment,
+          status: 'new'
+        })
       })
 
     this.changeStatus('all')
   }
 
-  deleteTask(task: Task): void {
-    this.allTasks = this.allTasks.filter(v => v !== task)
-    this.taskService.deleteTask(task).subscribe()
+  deleteTask(id: number): void {
+    this.allTasks = this.allTasks.filter(v => v.id !== id)
+    this.taskService.delete(id).subscribe()
   }
 
   changeStatus(name: string): void {
@@ -68,6 +71,10 @@ export class DashboardComponent implements OnInit {
     } else {
       this.addTaskDisabled = ''
     }
+  }
+
+  resetTasks () {
+    this.taskService.deleteDB().subscribe()
   }
 
   get tasks(): Task[] {

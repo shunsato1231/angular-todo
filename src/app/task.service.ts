@@ -1,84 +1,184 @@
 import { Injectable } from '@angular/core';
 import { Task } from './task';
 
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable, Observer, ReplaySubject, Subject, observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
+  db: Subject<IDBDatabase> = new ReplaySubject<IDBDatabase>(1);
 
-  constructor(
-    private http: HttpClient
-  ) { }
+  dbSettings = {
+    name: 'todos-vue',
+    version: 1
+  }
+  storeSettings = {
+    name: 'tasks',
+    storeOptions: { keyPath: 'id', autoIncrement: true },
+    indexes: [
+      { indexName: 'comment', unique: false },
+      { indexName: 'status', unique: false }
+    ]
+  }
 
-  private tasksUrl = 'api/tasks';
+  constructor() { 
+    /**データベースをオープンする */
+    const request = indexedDB.open(this.dbSettings.name)
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
+    request.onsuccess = (event: any) => {
+      const db: IDBDatabase = event.target.result
+      this.db.next(db)
+    }
 
-  /** task一覧取得 */
-  getTasks(): Observable<Task[]>{
-    return this.http.get<Task[]>(this.tasksUrl)
-      .pipe(
-        catchError(this.handleError<Task[]>('getTasks', []))
-      )
+    request.onerror = (error) => {
+      this.db.error(error)
+      this.db.complete()
+    }
+
+    request.onupgradeneeded = (event: any) => {
+      const db: IDBDatabase = event.target.result
+
+      //object storeが存在する場合削除して作り直し(auto incrementをリセットするため)
+      if (Array.from(db.objectStoreNames).includes(this.storeSettings.name)) {
+        db.deleteObjectStore(this.storeSettings.name)
+      }
+
+      const objectStore = db.createObjectStore(this.storeSettings.name, this.storeSettings.storeOptions)
+      this.storeSettings.indexes.forEach((obj) => {
+        objectStore.createIndex(obj.indexName, obj.indexName, { unique: obj.unique })
+      })
+    }
   }
 
 
   /** task取得 */
-  getTask(id: number): Observable<Task>{
-    const url = `${this.tasksUrl}/${id}`;
-    return this.http.get<Task>(url)
-      .pipe(
-        catchError(this.handleError<Task>(`getTask, id=${id}`))
-      )
-  }
+  get(id?: any): Observable<any> {
+    return Observable.create((observer: Observer<any>) => {
+      try {
+        this.db.pipe(
+          take(1)
+        ).subscribe(db => {
+          const transaction = db.transaction(this.storeSettings.name, "readonly")
+          const objectStore = transaction.objectStore(this.storeSettings.name)
+          let request
 
-  /** task更新 */
-  updateTask(task: Task): Observable<any> {
-    return this.http.put(this.tasksUrl, task, this.httpOptions)
-      .pipe(
-        catchError(this.handleError<any>('updateTask'))
-      )
+          if (id) {
+            request = objectStore.get(parseInt(id))
+          } else {
+            request = objectStore.getAll()
+          }
+
+          request.onsuccess = (event: any) => {
+            observer.next(event.target.result)
+            observer.complete()
+          }
+
+          request.onerror = (event: any) => observer.error(event.target.error)
+        })
+      } catch (error){
+        observer.error(error)
+      }
+    })
   }
 
   /** task追加 */
-  addTask(task: Task): Observable<Task> {
-    return this.http.post<Task>(this.tasksUrl, task, this.httpOptions)
-      .pipe(
-        catchError(this.handleError<Task>('addTask'))
-      )
+  post(task: Task): Observable<number> {
+    return Observable.create((observer: Observer<number>) => {
+      try {
+        this.db.pipe(
+          take(1)
+        ).subscribe(db => {
+          const transaction = db.transaction(this.storeSettings.name, "readwrite");
+          const objectStore = transaction.objectStore(this.storeSettings.name)
+          const request = objectStore.add(task)
+
+          request.onsuccess = (event: any) => {
+            observer.next(event.target.result)
+            observer.complete()
+          }
+  
+          request.onerror = (event: any) => observer.error(event.target.error)
+        })
+      } catch (error) {
+        observer.error(error)
+      }
+    })
+  }
+
+  /** task更新 */
+  put(task: Task): Observable<Task> {
+    return Observable.create((observer: Observer<Task>) => {
+      try {
+        this.db.pipe(
+          take(1)
+        ).subscribe(db => {
+          const transaction = db.transaction(this.storeSettings.name, "readwrite");
+          const objectStore = transaction.objectStore(this.storeSettings.name)
+          const request = objectStore.put(task)
+
+        request.onsuccess = (event:any) => {
+          observer.next(event.target.result)
+          observer.complete()
+        }
+
+        request.onerror = (event: any) => observer.error(event.target.error)
+        })
+      } catch (error) {
+        observer.error(error)
+      }
+    })
   }
 
   /** task削除 */
-  deleteTask(task: Task | number): Observable<Task> {
-    const id = typeof task === 'number' ? task : task.id
-    const url = `${this.tasksUrl}/${id}`
+  delete(id: any): Observable<any> {
+    return Observable.create((observer: Observer<any>) => {
+      try {
+        this.db.pipe(
+          take(1)
+        ).subscribe(db => {
+          const transaction = db.transaction(this.storeSettings.name, "readwrite")
+          const objectStore = transaction.objectStore(this.storeSettings.name)
+          const request = objectStore.delete(parseInt(id))
 
-    return this.http.delete<Task>(url)
-      .pipe(
-        catchError(this.handleError<Task>(`deleteTask, id=${id}`))
-      )
-  }
- 
-  /**
-   * エラーハンドリング
-   * @param operation - 失敗した操作の名前
-   * @param result - bservableな結果として返す任意の値
-   */
-  private handleError<T> (operation = 'operation', result?: T) {
-    return (error:any) : Observable<T> => {
-      // TODO: リモート上のロギング基盤にエラーを送信する
-      console.error(error); // かわりにconsoleに出力
+          request.onsuccess = (event: any) => {
+            observer.next(event.type)
+            observer.complete()
+          }
 
-
-      // 空の結果を返して、アプリを持続可能にする
-      return of(result as T);
-    };
+          request.onerror = (event: any) => observer.error(event.target.error)
+        })
+      } catch (error) {
+        observer.error(error)
+      }
+    })
   }
 
+  deleteDB(): Observable<any> {
+    return Observable.create((observer: Observer<any>) => {
+      try{
+        this.db.pipe(
+          take(1)
+        ).subscribe(db => {
+          const request = indexedDB.deleteDatabase(this.dbSettings.name)
+          db.close()
+
+          request.onsuccess = (event) => {
+            document.location.reload()
+            observer.next(event.type)
+            observer.complete()
+          }
+
+          request.onblocked = () => {
+            alert('errror! 複数タブでは実行できません。 タブを閉じてください')
+          }
+
+          request.onerror = (event: any) => observer.error(event.target.error)
+        })
+      } catch {
+
+      }
+    })
+  }
 }

@@ -26,7 +26,7 @@ export class TaskDetailComponent implements OnInit {
 
   getTask(): void {
     const id = +this.route.snapshot.paramMap.get('id')
-    this.taskService.getTask(id)
+    this.taskService.get(id)
     .subscribe(task => {
       this.task = JSON.parse(JSON.stringify(task))
       this.beforeChangeTask = JSON.parse(JSON.stringify(task))
@@ -34,14 +34,14 @@ export class TaskDetailComponent implements OnInit {
   }
 
   updateTask(): void {
-    this.taskService.updateTask(this.task)
+    this.taskService.put(this.task)
       .subscribe(() => {
         this.router.navigate(["/"])
       })
   }
 
   deleteTask(): void {
-    this.taskService.deleteTask(this.task)
+    this.taskService.delete(this.task.id)
       .subscribe(() => {
         this.router.navigate(["/"])
       })

@@ -9,7 +9,7 @@ import { Task } from '../../task';
 export class TaskListComponent implements OnInit {
 
   @Input() tasks: Task[]
-  @Output() delete: EventEmitter<Task> = new EventEmitter<Task>()
+  @Output() delete: EventEmitter<number> = new EventEmitter<number>()
 
   constructor() { }
 
@@ -21,7 +21,7 @@ export class TaskListComponent implements OnInit {
     else if (status === 'wip') return 'red'
   }
 
-  handleDeleteButton(task: Task): void {
-    this.delete.emit(task)
+  handleDeleteButton(id: number): void {
+    this.delete.emit(id)
   }
 }

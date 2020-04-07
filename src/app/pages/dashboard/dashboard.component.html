@@ -12,6 +12,15 @@
 >
 </app-task-list>
 
+<p
+  [class.hidden] = "allTasks.length === 0"
+  class="resetButton"
+  (click) = "resetTasks()"
+>
+  reset tasks
+  <i class="fas fa-redo"></i>
+</p>
+
 <div class="addTask">
   <app-add-task-form
     (add)="addTask($event)"

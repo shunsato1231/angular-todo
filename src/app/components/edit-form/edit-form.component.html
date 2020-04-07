@@ -6,8 +6,8 @@
           type="radio"
           name="status"
           [value]="item"
-          [checked]="task?.status"
-          (change)="handleChangeStatus(item)"/> {{item}}
+          [ngModel]="task?.status"
+          (ngModelChange)="handleChangeStatus(item)"/> {{item}}
       </label>
     </ng-container>
   </div>
